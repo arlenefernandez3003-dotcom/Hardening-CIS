@@ -1,0 +1,67 @@
+enable
+configure terminal
+
+hostname SW-CIS
+ip domain-name cis.itla.local
+spanning-tree mode rapid-pvst
+
+vlan 10
+ name USUARIOS
+vlan 99
+ name GESTION
+vlan 999
+ name BLACKHOLE
+exit
+
+interface Vlan99
+ ip address 10.7.30.3 255.255.255.224
+ no shutdown
+exit
+ip default-gateway 10.7.30.2
+
+interface Ethernet0/0
+ description Trunk hacia R-CIS
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,99
+ no shutdown
+exit
+
+interface Ethernet0/1
+ description Admin-PC
+ switchport mode access
+ switchport access vlan 99
+ no shutdown
+exit
+
+interface Ethernet0/2
+ description PC-Usuario
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+exit
+
+interface range Ethernet0/3 , Ethernet1/0 - 3
+ description Sin uso
+ switchport mode access
+ switchport access vlan 999
+exit
+
+! --- Acceso inicial inseguro (a propósito) ---
+enable password cisco
+username admin-local privilege 15 secret Admin-Local#2026
+snmp-server community public RO
+snmp-server community private RW
+ip http server
+crypto key generate rsa modulus 1024
+line con 0
+ exec-timeout 0 0
+ login local
+exit
+line vty 0 4
+ login local
+ transport input all
+exit
+
+end
+write memory
