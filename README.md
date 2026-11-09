@@ -1036,27 +1036,28 @@ Numeradas en el orden en que se toman durante el procedimiento.
 
 | # | Archivo | Paso | Descripción |
 |---|---|---|---|
-| 01 | [`01_topologia_pnet.png`](screenshots/01_topologia_pnet.png) | 1 | Topología en PNETLab: R-CIS, SW-CIS y las nubes. |
-| 02 | [`02_switch_base.png`](screenshots/02_switch_base.png) | 2 | Configuración inicial del switch. |
-| 03 | [`03_router_base.png`](screenshots/03_router_base.png) | 3 | Configuración inicial del router. |
-| 04 | [`04_admin_pc_red.png`](screenshots/04_admin_pc_red.png) | 4 | Admin-PC con `10.7.30.4/27` y syslog escuchando. |
-| 05 | [`05_conectividad.png`](screenshots/05_conectividad.png) | 5 | Pings y acceso inicial (aún con Telnet). |
-| 06 | [`06_herramienta_antes.png`](screenshots/06_herramienta_antes.png) | 6 | Informe CIS inicial de la herramienta. |
-| 07 | [`07_script_audit.png`](screenshots/07_script_audit.png) | 7 | Ejecución de `--audit`. |
-| 08 | [`08_informe_audit.png`](screenshots/08_informe_audit.png) | 7 | Informe sin aplicar reglas (FAIL/PASS). |
-| 09 | [`09_script_apply.png`](screenshots/09_script_apply.png) | 8 | Ejecución de `--apply`. |
-| 10 | [`10_informe_apply.png`](screenshots/10_informe_apply.png) | 8 | Informe póstumo: antes y después. |
-| 11 | [`11_herramienta_despues.png`](screenshots/11_herramienta_despues.png) | 9 | Informe CIS final de la herramienta. |
-| 12 | [`12_ssh_admin_ok.png`](screenshots/12_ssh_admin_ok.png) | 10.1 | SSH v2 desde el Admin-PC con banner. |
-| 13 | [`13_telnet_ssh_usuario_denegado.png`](screenshots/13_telnet_ssh_usuario_denegado.png) | 10.1 | Telnet y SSH desde el PC-Usuario rechazados. |
+| 01 | [`01_topologia_pnet.png`](screenshots/01_topologia_pnet.png) | 1 | Topología en PNETLab: R-CIS, SW-CIS y las nubes del Admin-PC y del PC-Usuario. |
+| 02 | [`02_switch_base.png`](screenshots/02_switch_base.png) | 2 | `show vlan brief` y `show interfaces trunk` del switch con la configuración inicial. |
+| 03 | [`03_router_base.png`](screenshots/03_router_base.png) | 3 | `show ip interface brief` y `show ip dhcp pool` del router. |
+| 04 | [`04_admin_pc_red.png`](screenshots/04_admin_pc_red.png) | 4 | Admin-PC con `10.7.30.4/27` y syslog escuchando en el puerto 514. |
+| 05 | [`05_conectividad.png`](screenshots/05_conectividad.png) | 5 | Pings entre los equipos y acceso inicial (aún con Telnet). |
+| 06 | [`06_herramienta_antes.png`](screenshots/06_herramienta_antes.png) | 6 | Informe CIS inicial de la herramienta externa. |
+| 07 | [`07_script_audit.png`](screenshots/07_script_audit.png) | 7 | Ejecución del script con `--audit`. |
+| 08 | [`08_informe_audit.png`](screenshots/08_informe_audit.png) | 7 | Informe sin aplicar reglas: controles en `PASS` y `FAIL`. |
+| 09 | [`09_script_apply.png`](screenshots/09_script_apply.png) | 8 | Ejecución del script con `--apply`. |
+| 10 | [`10_informe_apply.png`](screenshots/10_informe_apply.png) | 8 | Informe póstumo: estado antes y después de cada control. |
+| 11 | [`11_herramienta_despues.png`](screenshots/11_herramienta_despues.png) | 9 | Informe CIS final de la herramienta externa. |
+| 12 | [`12_ssh_admin_ok.png`](screenshots/12_ssh_admin_ok.png) | 10.1 | SSH v2 desde el Admin-PC con el banner de acceso restringido. |
+| 13 | [`13_telnet_ssh_usuario_denegado.png`](screenshots/13_telnet_ssh_usuario_denegado.png) | 10.1 | Telnet fallando y SSH denegado desde el PC-Usuario. |
 | 14 | [`14_nmap_despues.png`](screenshots/14_nmap_despues.png) | 10.2 | `nmap` con solo el puerto 22 abierto. |
 | 15 | [`15_snmp_cdp_apagados.png`](screenshots/15_snmp_cdp_apagados.png) | 10.2 | SNMP sin respuesta y CDP apagado. |
-| 16 | [`16_lineas_banner.png`](screenshots/16_lineas_banner.png) | 10.3 | `enable secret`, líneas y banner. |
-| 17 | [`17_logs_router.png`](screenshots/17_logs_router.png) | 10.4 | `show logging` con fecha y hora. |
-| 18 | [`18_syslog_admin.png`](screenshots/18_syslog_admin.png) | 10.4 | Eventos recibidos en el servidor syslog. |
-| 19 | [`19_dataplane_router.png`](screenshots/19_dataplane_router.png) | 10.5 | Interfaz con redirects, unreachables, proxy-arp y uRPF. |
-| 20 | [`20_switch_l2_hardening.png`](screenshots/20_switch_l2_hardening.png) | 10.6 | Trunk, puertos apagados, port-security y DHCP snooping. |
-| 21 | [`21_running_configs.png`](screenshots/21_running_configs.png) | 11 | Running-configs finales. |
+| 16 | [`16_lineas_banner.png`](screenshots/16_lineas_banner.png) | 10.3 | `enable secret`, líneas `con` y `vty` y banner. |
+| 17 | [`17_logs_router.png`](screenshots/17_logs_router.png) | 10.4 | `show logging` del router con fecha y hora. |
+| 18 | [`18_syslog_admin.png`](screenshots/18_syslog_admin.png) | 10.4 | Eventos recibidos en el servidor syslog del Admin-PC. |
+| 19 | [`19_dataplane_router.png`](screenshots/19_dataplane_router.png) | 10.5 | Interfaz de usuarios con `no ip redirects`, `no ip unreachables`, `no ip proxy-arp` y uRPF. |
+| 20 | [`20_switch_l2_hardening.png`](screenshots/20_switch_l2_hardening.png) | 10.6 | Trunk, puertos sin uso apagados, port-security y DHCP snooping en el switch. |
+| 21 | [`21_running_configs.png`](screenshots/21_running_configs.png) | 11 | Running-configs finales en el repositorio. |
+ 
 
 ---
 
