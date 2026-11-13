@@ -28,10 +28,10 @@
    - [Paso 4. Switch SW-CIS: configuración inicial (insegura)](#paso-4-switch-sw-cis-configuración-inicial-insegura)
    - [Paso 5. Equipo auditor (Admin-PC) y PC-Usuario](#paso-5-equipo-auditor-admin-pc-y-pc-usuario)
    - [Paso 6. Verificar la conectividad](#paso-6-verificar-la-conectividad)
-   - [Paso 7. Análisis CIS inicial con Nipper Studio](#paso-7-análisis-cis-inicial-con-nipper-studio)
-   - [Paso 8. Script de hardening: informe sin aplicar cambios](#paso-8-script-de-hardening-informe-sin-aplicar-cambios)
+   - [Paso 7. Exportar las configuraciones iniciales (línea base)](#paso-7-exportar-las-configuraciones-iniciales-línea-base)
+   - [Paso 8. Análisis CIS inicial: informe sin aplicar cambios](#paso-8-análisis-cis-inicial-informe-sin-aplicar-cambios)
    - [Paso 9. Script de hardening: aplicar reglas e informe póstumo](#paso-9-script-de-hardening-aplicar-reglas-e-informe-póstumo)
-   - [Paso 10. Análisis CIS final con Nipper Studio](#paso-10-análisis-cis-final-con-nipper-studio)
+   - [Paso 10. Exportar configuraciones finales y comparar resultados](#paso-10-exportar-configuraciones-finales-y-comparar-resultados)
    - [Paso 11. Pruebas de las recomendaciones aplicadas](#paso-11-pruebas-de-las-recomendaciones-aplicadas)
    - [Paso 12. Exportar las configuraciones](#paso-12-exportar-las-configuraciones)
 5. [El script `cis_hardening.py`](#5-el-script-cis_hardeningpy)
@@ -45,7 +45,7 @@
 
 Esta práctica construye una red con **un Router, un Switch y un Firewall**: un router Cisco como borde hacia el ISP, un firewall **FortiGate (FortiOS 7.0.x)** como gateway de las redes internas y un switch Cisco de acceso. La red se deja con una configuración **insegura de fábrica**, se **analiza contra los CIS Benchmarks** de cada equipo y se le aplica **hardening** de forma automatizada.
 
-* Se mide el nivel de cumplimiento **antes** y **después** del hardening con una herramienta de análisis CIS (Nipper Studio) y con un script propio.
+* Se mide el nivel de cumplimiento **antes** y **después** del hardening con un script propio de auditoría CIS (`cis_hardening.py`), que evalúa los 35 controles elegidos en los tres equipos y genera un informe con el porcentaje de cumplimiento.
 * Se aplican recomendaciones del **CIS Cisco IOS Benchmark** al router y al switch (Management Plane, Control Plane y Data Plane, más controles complementarios de capa 2) y del **CIS FortiGate 7.0.x Benchmark** al firewall.
 * Un **script en Python** escanea los tres equipos y puede trabajar en dos modos:
   * **`--audit`:** genera un informe **sin aplicar ninguna regla**.
@@ -608,25 +608,11 @@ Desde el **PC-Usuario**: `ip addr`, `ping -c 3 10.7.30.34` y `ping -c 3 8.8.8.8`
 
 ---
 
-### Paso 7. Análisis CIS inicial con Nipper Studio
+### Paso 7. Exportar las configuraciones iniciales (línea base)
 
-La herramienta de análisis es **Nipper Studio** (Titania). Analiza el archivo de configuración exportado de cada equipo y lo compara contra los CIS Benchmarks. Este análisis se hace **antes** del hardening, con la red todavía en la configuración insegura de los Pasos 2 a 4.
+Con la red todavía en la configuración insegura de los Pasos 2 a 4, se guardan las configuraciones de los tres equipos. Estos archivos `pre-*` documentan el estado de partida y quedan en el repositorio. La medición de cumplimiento CIS se hace con el script en el Paso 8.
 
-**7.1 — Requisitos**
-
-| Requisito | Detalle |
-|---|---|
-| Nipper Studio 3.8.0 o superior | Se instala en el **equipo anfitrión** (no en las VMs). Es una herramienta comercial: se necesita licencia o versión de prueba. La versión 3.8.0 añadió informes CIS para **FortiGate 7.0.x (v1.3.0)** y para Cisco IOS XE 17.x (v2.1.1). |
-| Benchmarks | **CIS FortiGate 7.0.x Benchmark** para `FW-CIS` y el benchmark de **Cisco IOS** disponible en la herramienta para `R-CIS` y `SW-CIS`. Anotar el nombre y la versión exactos usados. |
-| Archivos de configuración | Un archivo por equipo (7.2). |
-
-> **Versión del benchmark de Cisco:** los equipos usan imágenes IOL con IOS 15.x. Si la herramienta solo ofrece el benchmark de IOS XE, se usa ese como el más cercano y se indica en el informe: los controles de gestión (AAA, SSH, SNMP, banners y servicios) son equivalentes.
-
-> **Por qué no CIS-CAT Pro:** su lista de benchmarks soportados incluye FortiGate **7.4.x**, no la 7.0.x que corresponde a este laboratorio.
-
-**7.2 — Exportar las configuraciones**
-
-**Router y switch** (desde el Admin-PC, con el entorno virtual activo). Guardar este código en `scripts/exportar_configs.py`:
+**7.1 — Router y switch** (desde el Admin-PC, con el entorno virtual activo). Guardar este código en `scripts/exportar_configs.py`:
 
 ```python
 #!/usr/bin/env python3
@@ -667,41 +653,15 @@ ls running-configs/
 
 Deben aparecer `pre-r-cis-running-config.txt` y `pre-sw-cis-running-config.txt`.
 
-**Firewall** (desde la GUI del FortiGate, en el navegador del Admin-PC): iniciar sesión en `https://10.7.30.2` (aceptar el certificado autofirmado) y, en el menú del usuario `admin` (arriba a la derecha), elegir **Configuration → Backup**, destino **Local PC**, y guardar el archivo como `running-configs/pre-fw-cis-config.conf`.
+**7.2 — Firewall** (desde la GUI del FortiGate, en el navegador del Admin-PC): iniciar sesión en `https://10.7.30.2` (aceptar el certificado autofirmado) y, en el menú del usuario `admin` (arriba a la derecha), elegir **Configuration → Backup**, destino **Local PC**, y guardar el archivo como `running-configs/pre-fw-cis-config.conf`.
 
-**7.3 — Pasar los archivos al equipo anfitrión**
-
-Copiar los tres archivos `pre-*` al equipo donde está instalado Nipper Studio (carpeta compartida de VMware o arrastrar y soltar).
-
-**7.4 — Ejecutar el análisis (una vez por equipo)**
-
-1. Abrir **Nipper Studio** y crear un nuevo informe.
-2. Agregar el archivo `pre-r-cis-running-config.txt` como dispositivo de tipo **Cisco**; agregar `pre-sw-cis-running-config.txt` igual.
-3. Agregar `pre-fw-cis-config.conf` como dispositivo de tipo **Fortinet FortiGate**.
-4. Seleccionar el informe de cumplimiento del **CIS Benchmark** correspondiente a cada equipo.
-5. Generar el informe y exportarlo (PDF o HTML).
-
-Guardar los informes en `reports/herramienta-antes/` con los nombres `r-cis-antes`, `sw-cis-antes` y `fw-cis-antes`.
-
-> Los nombres exactos de las opciones pueden variar entre versiones de la herramienta.
-
-**7.5 — Anotar los resultados**
-
-Abrir cada informe y completar la tabla con el resumen de cumplimiento que muestra la herramienta.
-
-| Equipo | Benchmark usado | Controles evaluados | Cumplen | No cumplen | % de cumplimiento (antes) |
-|---|---|---|---|---|---|
-| R-CIS | `TODO` | `TODO` | `TODO` | `TODO` | `TODO` |
-| SW-CIS | `TODO` | `TODO` | `TODO` | `TODO` | `TODO` |
-| FW-CIS | CIS FortiGate 7.0.x | `TODO` | `TODO` | `TODO` | `TODO` |
-
-> Ver evidencia: [07_herramienta_antes.png](screenshots/07_herramienta_antes.png)
+> Ver evidencia: [07_configs_iniciales.png](screenshots/07_configs_iniciales.png)
 
 ---
 
-### Paso 8. Script de hardening: informe sin aplicar cambios
+### Paso 8. Análisis CIS inicial: informe sin aplicar cambios
 
-El script [`scripts/cis_hardening.py`](scripts/cis_hardening.py) (sección 5) se conecta por SSH a los tres equipos, lee su configuración y evalúa los controles de cada uno (19 en el router, 22 en el switch y 12 en el firewall). En este modo **no modifica nada**.
+La herramienta de análisis es el script propio [`scripts/cis_hardening.py`](scripts/cis_hardening.py) (sección 5). Se conecta por SSH a los tres equipos, lee su configuración y evalúa los controles CIS elegidos (19 en el router, 22 en el switch y 12 en el firewall). En el modo `--audit` **no modifica nada**; este informe es la medición **antes** del hardening.
 
 ```bash
 cd ~/cis-lab && source ~/cis/bin/activate
@@ -714,6 +674,20 @@ Pide la contraseña de `admin-local` (router y switch) y la de `admin` (firewall
 |---|---|
 | `informe-audit.md` | Tabla por equipo con cada control en `PASS` o `FAIL` y el resumen de cumplimiento. |
 | `informe-audit.json` | El mismo resultado en formato máquina. |
+
+Para ver los porcentajes de los tres equipos:
+
+```bash
+grep -H "Cumplimiento" reports/*/informe-audit.md
+```
+
+**Resultado inicial (antes del hardening)**
+
+| Equipo | Controles evaluados | Cumplen | No cumplen | % de cumplimiento (antes) |
+|---|---|---|---|---|
+| R-CIS | 19 | `TODO` | `TODO` | `TODO` |
+| SW-CIS | 22 | `TODO` | `TODO` | `TODO` |
+| FW-CIS | 12 | `TODO` | `TODO` | `TODO` |
 
 Comprobar después que los equipos **no cambiaron**: comparar `show running-config` (Cisco) y `show` (FortiGate) antes y después.
 
@@ -739,27 +713,30 @@ El script, por cada equipo:
 
 Pide también el nuevo `enable secret` (M-03). Los controles sin remediación automática (por ejemplo, crear el usuario local, M-02) quedan como `MANUAL` en el informe. Si algún comando es rechazado por el equipo, el error aparece en la columna **Observación**.
 
+Para ver los porcentajes después del hardening:
+
+```bash
+grep -H "Cumplimiento" reports/*/informe-apply.md
+```
+
 > Ver evidencia: [10_script_apply.png](screenshots/10_script_apply.png), [11_informe_apply.png](screenshots/11_informe_apply.png)
 
 ---
 
-### Paso 10. Análisis CIS final con Nipper Studio
+### Paso 10. Exportar configuraciones finales y comparar resultados
 
-Se repite exactamente el análisis del Paso 7, pero con los equipos ya endurecidos por el script.
+**10.1 — Exportar las configuraciones finales**
 
-1. Exportar las configuraciones finales:
+```bash
+cd ~/cis-lab && source ~/cis/bin/activate
+python3 scripts/exportar_configs.py post
+```
 
-   ```bash
-   cd ~/cis-lab && source ~/cis/bin/activate
-   python3 scripts/exportar_configs.py post
-   ```
+Genera `post-r-cis-running-config.txt` y `post-sw-cis-running-config.txt`. Para el firewall, repetir el respaldo desde la GUI (**Configuration → Backup**) como `running-configs/post-fw-cis-config.conf`.
 
-   Genera `post-r-cis-running-config.txt` y `post-sw-cis-running-config.txt`. Para el firewall, repetir el respaldo desde la GUI (**Configuration → Backup**) como `running-configs/post-fw-cis-config.conf`.
+**10.2 — Comparar antes y después**
 
-2. Copiar los tres archivos `post-*` al equipo anfitrión.
-3. En Nipper Studio repetir los pasos del apartado 7.4 con los archivos `post-*`, usando **los mismos benchmarks** que en el Paso 7.
-4. Guardar los informes en `reports/herramienta-despues/` como `r-cis-despues`, `sw-cis-despues` y `fw-cis-despues`.
-5. Completar la tabla comparativa:
+Los porcentajes salen del informe póstumo `informe-apply.md` del Paso 9, que muestra el estado de cada control antes y después:
 
 | Equipo | % de cumplimiento (antes) | % de cumplimiento (después) |
 |---|---|---|
@@ -767,9 +744,15 @@ Se repite exactamente el análisis del Paso 7, pero con los equipos ya endurecid
 | SW-CIS | `TODO` | `TODO` |
 | FW-CIS | `TODO` | `TODO` |
 
-> Es normal que el porcentaje no llegue al 100 %: el laboratorio aplica los controles elegidos (sección 3) y no todo el benchmark.
+> Es normal que el porcentaje no llegue al 100 %: el laboratorio aplica los controles elegidos (sección 3) y no todo el benchmark. Los controles marcados `MANUAL` requieren una acción del administrador.
 
-> Ver evidencia: [12_herramienta_despues.png](screenshots/12_herramienta_despues.png)
+Para ver qué cambió realmente en cada equipo:
+
+```bash
+diff reports/*/backups/R-CIS-pre.cfg reports/*/backups/R-CIS-post.cfg | head -60
+```
+
+> Ver evidencia: [12_configs_finales.png](screenshots/12_configs_finales.png)
 
 ---
 
@@ -1551,7 +1534,8 @@ if __name__ == "__main__":
 | Todo script utilizado en el repositorio | Carpeta `scripts/` | 5, Paso 7 |
 | Running-configs en el repositorio | Carpeta `running-configs/` | Paso 12 |
 | Red con un Router, un Switch y un Firewall | `R-CIS`, `SW-CIS` y `FW-CIS` | 2 |
-| Herramienta de análisis basada en CIS Benchmark | Nipper Studio y el script `cis_hardening.py` | Pasos 7, 8, 10 |
+| Herramienta de análisis basada en CIS Benchmark | Script propio `cis_hardening.py` (35 controles del CIS Cisco IOS y del CIS FortiGate 7.0.x) | 5, Pasos 8 y 9 |
+| Todo script utilizado en el repositorio | Carpeta `scripts/` | 5, Paso 7 |
 | Aplicar recomendaciones de hardening | 35 controles (M, C, D, L y F) | 3, Paso 9 |
 | Documentar las recomendaciones y por qué se aplicaron | Tablas 3.1 a 3.5 | 3 |
 | Probar las recomendaciones aplicadas | Pruebas 11.1 a 11.7 | Paso 11 |
@@ -1574,12 +1558,12 @@ Numeradas en el orden en que se toman durante el procedimiento.
 | 04 | [`04_firewall_base.png`](screenshots/04_firewall_base.png) | 2 | Interfaces, política y servidor DHCP del firewall con la configuración inicial. |
 | 05 | [`05_admin_pc_red.png`](screenshots/05_admin_pc_red.png) | 5 | Admin-PC con `10.7.30.4/27` y syslog escuchando en el puerto 514. |
 | 06 | [`06_conectividad.png`](screenshots/06_conectividad.png) | 6 | Pings entre los equipos, salida al ISP y acceso inicial (aún con Telnet). |
-| 07 | [`07_herramienta_antes.png`](screenshots/07_herramienta_antes.png) | 7 | Informe de Nipper Studio antes del hardening. |
+| 07 | [`07_configs_iniciales.png`](screenshots/07_configs_iniciales.png) | 7 | `exportar_configs.py pre` y `ls running-configs/` con los archivos `pre-*`. |
 | 08 | [`08_script_audit.png`](screenshots/08_script_audit.png) | 8 | Ejecución del script con `--audit`. |
 | 09 | [`09_informe_audit.png`](screenshots/09_informe_audit.png) | 8 | Informe sin aplicar reglas: controles en `PASS` y `FAIL`. |
 | 10 | [`10_script_apply.png`](screenshots/10_script_apply.png) | 9 | Ejecución del script con `--apply`. |
 | 11 | [`11_informe_apply.png`](screenshots/11_informe_apply.png) | 9 | Informe póstumo: estado antes y después de cada control. |
-| 12 | [`12_herramienta_despues.png`](screenshots/12_herramienta_despues.png) | 10 | Informe de Nipper Studio después del hardening. |
+| 12 | [`12_configs_finales.png`](screenshots/12_configs_finales.png) | 10 | `exportar_configs.py post`, tabla antes/después y `diff` de la configuración. |
 | 13 | [`13_ssh_admin_ok.png`](screenshots/13_ssh_admin_ok.png) | 11.1 | SSH v2 desde el Admin-PC con el banner de acceso restringido. |
 | 14 | [`14_telnet_ssh_usuario_denegado.png`](screenshots/14_telnet_ssh_usuario_denegado.png) | 11.1 | Telnet fallando y SSH denegado desde el PC-Usuario. |
 | 15 | [`15_nmap_despues.png`](screenshots/15_nmap_despues.png) | 11.2 | `nmap` con solo el puerto 22 abierto. |
@@ -1610,9 +1594,7 @@ Numeradas en el orden en que se toman durante el procedimiento.
 │   ├── exportar_configs.py      ← exporta la running-config de router y switch (pre/post)
 │   └── cis_hardening.py         ← auditoría (--audit) y hardening (--apply)
 ├── reports/
-│   ├── herramienta-antes/       ← informes de Nipper Studio antes del hardening
-│   ├── herramienta-despues/     ← informes de Nipper Studio después del hardening
-│   ├── <fecha-hora>/            ← informes del script (audit y apply, md + json)
+│   ├── <fecha-hora>/            ← informes del script
 │   └── <fecha-hora>/backups/    ← configuración de cada equipo antes y después
 ├── running-configs/
 │   ├── pre-r-cis-running-config.txt
