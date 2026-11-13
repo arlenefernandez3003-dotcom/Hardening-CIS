@@ -5,29 +5,27 @@ hostname R-CIS
 ip domain-name cis.itla.local
 
 interface Ethernet0/0
- description Trunk hacia SW-CIS
- no ip address
+ description ISP
+ ip address 202.50.73.10 255.255.255.0
+ ip nat outside
  no shutdown
 exit
 
-interface Ethernet0/0.99
- description Gestion
- encapsulation dot1Q 99
- ip address 10.7.30.2 255.255.255.224
+interface Ethernet0/1
+ description Transito hacia FW-CIS
+ ip address 10.7.30.66 255.255.255.248
+ ip tcp adjust-mss 1420
+ ip nat inside
+ no shutdown
 exit
 
-interface Ethernet0/0.10
- description Usuarios
- encapsulation dot1Q 10
- ip address 10.7.30.34 255.255.255.224
+ip access-list standard NAT-LAN
+ permit 10.7.30.0 0.0.0.127
 exit
 
-ip dhcp excluded-address 10.7.30.33 10.7.30.39
-ip dhcp pool USUARIOS
- network 10.7.30.32 255.255.255.224
- default-router 10.7.30.34
- dns-server 8.8.8.8
-exit
+ip nat inside source list NAT-LAN interface Ethernet0/0 overload
+ip route 0.0.0.0 0.0.0.0 202.50.73.2
+ip route 10.7.30.0 255.255.255.192 10.7.30.67
 
 ! --- Acceso inicial inseguro (a propósito) ---
 enable password cisco
