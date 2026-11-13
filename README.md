@@ -853,15 +853,13 @@ nmap -Pn --script ssl-enum-ciphers -p 443 10.7.30.2    # F-03: solo TLS 1.2 y 1.
 snmpwalk -v2c -c public 10.7.30.2                      # F-09: sin respuesta (timeout)
 ```
 
-En el navegador del Admin-PC, `https://10.7.30.2` abre la GUI y muestra el banner antes del inicio de sesión.
-
 Desde el **PC-Usuario**:
 
 ```bash
 ssh admin@10.7.30.34                                   # F-08/F-12: sin respuesta
 ```
 
-En la consola del FortiGate:
+En la consola del FortiGate (por SSH desde el Admin-PC):
 
 ```bash
 show full-configuration system global | grep -E "admintimeout|lockout|banner|strong-crypto|ssl-versions|telnet"
@@ -871,7 +869,36 @@ show full-configuration firewall policy | grep logtraffic
 show full-configuration log syslogd setting
 ```
 
-Después de generar tráfico (por ejemplo, `ping 8.8.8.8` desde el PC-Usuario), abrir en la GUI `Log & Report → Forward Traffic`: cada sesión aparece registrada con la política `LAN-to-Transito` (F-11). Los mismos eventos llegan al syslog del Admin-PC (F-10).
+**Registros de tráfico por CLI (F-10 y F-11)**
+
+Los registros se leen desde la CLI del firewall, sin usar la GUI. Como la VM no tiene disco de logs (`Log hard disk: Not available`), se guardan en memoria. Primero se activa el registro en memoria:
+
+```bash
+config log memory setting
+    set status enable
+end
+```
+
+Se genera tráfico desde el **PC-Usuario**:
+
+```bash
+ping -c 3 8.8.8.8
+```
+
+Luego, en la CLI del FortiGate, se consultan los registros de la política `LAN-to-Transito`:
+
+```bash
+execute log filter device memory
+execute log filter category 0
+execute log filter field policyid 1
+execute log display
+```
+
+Cada sesión aparece con `policyname="LAN-to-Transito"`, origen `10.7.30.4x`, destino `8.8.8.8` y `action="accept"`, lo que demuestra F-11 (`logtraffic all`). Los mismos eventos llegan al syslog del Admin-PC (F-10):
+
+```bash
+sudo tail -n 20 /var/log/syslog | grep FW-CIS
+```
 
 > Ver evidencia: [22_fw_acceso_admin.png](screenshots/22_fw_acceso_admin.png), [23_fw_global_hardening.png](screenshots/23_fw_global_hardening.png), [24_fw_logs_politica.png](screenshots/24_fw_logs_politica.png), [25_fw_snmp_tls.png](screenshots/25_fw_snmp_tls.png)
 
