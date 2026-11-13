@@ -1602,7 +1602,7 @@ Numeradas en el orden en que se toman durante el procedimiento.
 | 21 | [`21_switch_l2_hardening.png`](screenshots/21_switch_l2_hardening.png) | 11.6 | Trunk, puertos sin uso apagados, port-security y DHCP snooping en el switch. |
 | 22 | [`22_fw_acceso_admin.png`](screenshots/22_fw_acceso_admin.png) | 11.7 | SSH al firewall con banner; Telnet y HTTP rechazados. |
 | 23 | [`23_fw_global_hardening.png`](screenshots/23_fw_global_hardening.png) | 11.7 | Configuración global endurecida del firewall (timeout, bloqueo, banners, strong crypto, TLS). |
-| 24 | [`24_fw_logs_politica.png`](screenshots/24_fw_logs_politica.png) | 11.7 | `Log & Report → Forward Traffic` con las sesiones registradas por la política. |
+| 24 | [`24_fw_logs_politica.png`](screenshots/24_fw_logs_politica.png) | 11.7 | `execute log display` en la CLI del firewall con las sesiones registradas por la política `LAN-to-Transito`. |
 | 25 | [`25_fw_snmp_tls.png`](screenshots/25_fw_snmp_tls.png) | 11.7 | SNMP sin respuesta y `nmap` con solo TLS 1.2 y 1.3 en el firewall. |
 | 26 | [`26_running_configs.png`](screenshots/26_running_configs.png) | 12 | Carpeta `running-configs/` con los archivos `pre-*` y `post-*`. |
 
