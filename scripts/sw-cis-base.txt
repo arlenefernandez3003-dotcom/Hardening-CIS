@@ -20,7 +20,7 @@ exit
 ip default-gateway 10.7.30.2
 
 interface Ethernet0/0
- description Trunk hacia R-CIS
+ description Trunk hacia FW-CIS port2
  switchport trunk encapsulation dot1q
  switchport mode trunk
  switchport trunk allowed vlan 10,99
