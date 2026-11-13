@@ -1,0 +1,762 @@
+{
+  "R-CIS": {
+    "antes": [
+      {
+        "id": "M-01",
+        "title": "AAA habilitado (aaa new-model + login por defecto)",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-02",
+        "title": "Usuario local con secret y sin 'password' en claro",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-03",
+        "title": "enable secret tipo 8/9 y sin enable password",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-04",
+        "title": "service password-encryption",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-05",
+        "title": "Banners login y exec",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-06",
+        "title": "SSH versión 2",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-07",
+        "title": "SSH: time-out <= 60 s y reintentos <= 3",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-08",
+        "title": "Clave RSA de al menos 2048 bits",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-09",
+        "title": "ACL MGMT-ONLY permite solo al equipo de gestión",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-10",
+        "title": "VTY: solo SSH, exec-timeout <= 5 min y access-class",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-11",
+        "title": "Consola con exec-timeout <= 5 min",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-12",
+        "title": "Puerto auxiliar con 'no exec'",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-13",
+        "title": "Servidor HTTP/HTTPS apagado",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-14",
+        "title": "Sin comunidades SNMP v1/v2c",
+        "plane": "Management",
+        "ok": false,
+        "detail": "public, private"
+      },
+      {
+        "id": "M-15",
+        "title": "Timestamps, logging buffered y syslog remoto",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "C-01",
+        "title": "Servicios innecesarios apagados (pad, source-route, bootp, domain-lookup)",
+        "plane": "Control",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "C-02",
+        "title": "CDP apagado",
+        "plane": "Control",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "D-01",
+        "title": "Interfaces L3: sin redirects, unreachables ni proxy-arp",
+        "plane": "Data",
+        "ok": false,
+        "detail": "Ethernet0/0, Ethernet0/1"
+      },
+      {
+        "id": "D-02",
+        "title": "uRPF en la interfaz del router hacia el firewall",
+        "plane": "Data",
+        "ok": false,
+        "detail": ""
+      }
+    ],
+    "despues": [
+      {
+        "id": "M-01",
+        "title": "AAA habilitado (aaa new-model + login por defecto)",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-02",
+        "title": "Usuario local con secret y sin 'password' en claro",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-03",
+        "title": "enable secret tipo 8/9 y sin enable password",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-04",
+        "title": "service password-encryption",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-05",
+        "title": "Banners login y exec",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-06",
+        "title": "SSH versión 2",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-07",
+        "title": "SSH: time-out <= 60 s y reintentos <= 3",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-08",
+        "title": "Clave RSA de al menos 2048 bits",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-09",
+        "title": "ACL MGMT-ONLY permite solo al equipo de gestión",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-10",
+        "title": "VTY: solo SSH, exec-timeout <= 5 min y access-class",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-11",
+        "title": "Consola con exec-timeout <= 5 min",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-12",
+        "title": "Puerto auxiliar con 'no exec'",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-13",
+        "title": "Servidor HTTP/HTTPS apagado",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-14",
+        "title": "Sin comunidades SNMP v1/v2c",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-15",
+        "title": "Timestamps, logging buffered y syslog remoto",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "C-01",
+        "title": "Servicios innecesarios apagados (pad, source-route, bootp, domain-lookup)",
+        "plane": "Control",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "C-02",
+        "title": "CDP apagado",
+        "plane": "Control",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "D-01",
+        "title": "Interfaces L3: sin redirects, unreachables ni proxy-arp",
+        "plane": "Data",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "D-02",
+        "title": "uRPF en la interfaz del router hacia el firewall",
+        "plane": "Data",
+        "ok": true,
+        "detail": ""
+      }
+    ]
+  },
+  "SW-CIS": {
+    "antes": [
+      {
+        "id": "M-01",
+        "title": "AAA habilitado (aaa new-model + login por defecto)",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-02",
+        "title": "Usuario local con secret y sin 'password' en claro",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-03",
+        "title": "enable secret tipo 8/9 y sin enable password",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-04",
+        "title": "service password-encryption",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-05",
+        "title": "Banners login y exec",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-06",
+        "title": "SSH versión 2",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-07",
+        "title": "SSH: time-out <= 60 s y reintentos <= 3",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-08",
+        "title": "Clave RSA de al menos 2048 bits",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-09",
+        "title": "ACL MGMT-ONLY permite solo al equipo de gestión",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-10",
+        "title": "VTY: solo SSH, exec-timeout <= 5 min y access-class",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-11",
+        "title": "Consola con exec-timeout <= 5 min",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-12",
+        "title": "Puerto auxiliar con 'no exec'",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-13",
+        "title": "Servidor HTTP/HTTPS apagado",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-14",
+        "title": "Sin comunidades SNMP v1/v2c",
+        "plane": "Management",
+        "ok": false,
+        "detail": "public, private"
+      },
+      {
+        "id": "M-15",
+        "title": "Timestamps, logging buffered y syslog remoto",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "C-01",
+        "title": "Servicios innecesarios apagados (pad, source-route, bootp, domain-lookup)",
+        "plane": "Control",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "C-02",
+        "title": "CDP apagado",
+        "plane": "Control",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "D-01",
+        "title": "Interfaces L3: sin redirects, unreachables ni proxy-arp",
+        "plane": "Data",
+        "ok": false,
+        "detail": "Vlan99"
+      },
+      {
+        "id": "L-01",
+        "title": "Trunks: nonegotiate y VLAN nativa distinta de 1",
+        "plane": "Capa 2",
+        "ok": false,
+        "detail": "Ethernet0/0"
+      },
+      {
+        "id": "L-02",
+        "title": "Puertos sin uso (VLAN 999) apagados",
+        "plane": "Capa 2",
+        "ok": false,
+        "detail": "Ethernet0/3, Ethernet1/0, Ethernet1/1, Ethernet1/2, Ethernet1/3"
+      },
+      {
+        "id": "L-03",
+        "title": "Puertos de acceso: nonegotiate, port-security y bpduguard",
+        "plane": "Capa 2",
+        "ok": false,
+        "detail": "Ethernet0/1, Ethernet0/2"
+      },
+      {
+        "id": "L-04",
+        "title": "DHCP Snooping en la VLAN 10 con trunk confiable",
+        "plane": "Capa 2",
+        "ok": false,
+        "detail": ""
+      }
+    ],
+    "despues": [
+      {
+        "id": "M-01",
+        "title": "AAA habilitado (aaa new-model + login por defecto)",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-02",
+        "title": "Usuario local con secret y sin 'password' en claro",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-03",
+        "title": "enable secret tipo 8/9 y sin enable password",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-04",
+        "title": "service password-encryption",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-05",
+        "title": "Banners login y exec",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-06",
+        "title": "SSH versión 2",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-07",
+        "title": "SSH: time-out <= 60 s y reintentos <= 3",
+        "plane": "Management",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "M-08",
+        "title": "Clave RSA de al menos 2048 bits",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-09",
+        "title": "ACL MGMT-ONLY permite solo al equipo de gestión",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-10",
+        "title": "VTY: solo SSH, exec-timeout <= 5 min y access-class",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-11",
+        "title": "Consola con exec-timeout <= 5 min",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-12",
+        "title": "Puerto auxiliar con 'no exec'",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-13",
+        "title": "Servidor HTTP/HTTPS apagado",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-14",
+        "title": "Sin comunidades SNMP v1/v2c",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "M-15",
+        "title": "Timestamps, logging buffered y syslog remoto",
+        "plane": "Management",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "C-01",
+        "title": "Servicios innecesarios apagados (pad, source-route, bootp, domain-lookup)",
+        "plane": "Control",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "C-02",
+        "title": "CDP apagado",
+        "plane": "Control",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "D-01",
+        "title": "Interfaces L3: sin redirects, unreachables ni proxy-arp",
+        "plane": "Data",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "L-01",
+        "title": "Trunks: nonegotiate y VLAN nativa distinta de 1",
+        "plane": "Capa 2",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "L-02",
+        "title": "Puertos sin uso (VLAN 999) apagados",
+        "plane": "Capa 2",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "L-03",
+        "title": "Puertos de acceso: nonegotiate, port-security y bpduguard",
+        "plane": "Capa 2",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "L-04",
+        "title": "DHCP Snooping en la VLAN 10 con trunk confiable",
+        "plane": "Capa 2",
+        "ok": true,
+        "detail": ""
+      }
+    ]
+  },
+  "FW-CIS": {
+    "antes": [
+      {
+        "id": "F-01",
+        "title": "Banners de inicio de sesión (pre y post login)",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "F-02",
+        "title": "Strong crypto habilitado",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "F-03",
+        "title": "GUI de administración solo con TLS 1.2 o superior",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": "tlsv1-2"
+      },
+      {
+        "id": "F-04",
+        "title": "Política de contraseñas de administrador",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "F-05",
+        "title": "Bloqueo de administrador: 3 intentos y 900 s",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "F-06",
+        "title": "Tiempo de inactividad de administrador <= 5 min",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "F-07",
+        "title": "Solo canales de administración cifrados (sin Telnet ni SSH v1)",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "F-08",
+        "title": "Servicios de administración: sin HTTP/Telnet y solo ping en la interfaz externa",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": "port1, port3, VLAN99"
+      },
+      {
+        "id": "F-09",
+        "title": "Sin comunidades SNMP v1/v2c y agente apagado",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": "1"
+      },
+      {
+        "id": "F-10",
+        "title": "Registro remoto (syslog) habilitado",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "F-11",
+        "title": "Las políticas registran todo el tráfico (logtraffic all)",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": "1"
+      },
+      {
+        "id": "F-12",
+        "title": "Hosts de confianza en las cuentas de administrador",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": "admin"
+      }
+    ],
+    "despues": [
+      {
+        "id": "F-01",
+        "title": "Banners de inicio de sesión (pre y post login)",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "F-02",
+        "title": "Strong crypto habilitado",
+        "plane": "Firewall",
+        "ok": false,
+        "detail": ""
+      },
+      {
+        "id": "F-03",
+        "title": "GUI de administración solo con TLS 1.2 o superior",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": "tlsv1-2"
+      },
+      {
+        "id": "F-04",
+        "title": "Política de contraseñas de administrador",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "F-05",
+        "title": "Bloqueo de administrador: 3 intentos y 900 s",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "F-06",
+        "title": "Tiempo de inactividad de administrador <= 5 min",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "F-07",
+        "title": "Solo canales de administración cifrados (sin Telnet ni SSH v1)",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "F-08",
+        "title": "Servicios de administración: sin HTTP/Telnet y solo ping en la interfaz externa",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "F-09",
+        "title": "Sin comunidades SNMP v1/v2c y agente apagado",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "F-10",
+        "title": "Registro remoto (syslog) habilitado",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "F-11",
+        "title": "Las políticas registran todo el tráfico (logtraffic all)",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "id": "F-12",
+        "title": "Hosts de confianza en las cuentas de administrador",
+        "plane": "Firewall",
+        "ok": true,
+        "detail": ""
+      }
+    ]
+  }
+}
