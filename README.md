@@ -1622,7 +1622,6 @@ Numeradas en el orden en que se toman durante el procedimiento.
 │   └── cis_hardening.py         ← auditoría (--audit) y hardening (--apply)
 ├── reports/
 │   ├── <fecha-hora>/            ← informes del script
-│   └── <fecha-hora>/backups/    ← configuración de cada equipo antes y después
 ├── running-configs/
 │   ├── pre-r-cis-running-config.txt
 │   ├── pre-sw-cis-running-config.txt
